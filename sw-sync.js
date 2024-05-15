@@ -1,4 +1,12 @@
-  const first = document.querySelector('#number1');
+globalThis.AsyncFunction = async function () { }.constructor;
+globalThis.await = _ => _;
+globalThis.async = async a => await a();
+
+void async function DedicatedWindow() {
+
+  if (!self?.window?.Worker) { return; }
+
+const first = document.querySelector('#number1');
 
   const second = document.querySelector('#number2');
 
