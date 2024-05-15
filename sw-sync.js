@@ -19,16 +19,14 @@ void function ServiceWorkerScript() {
   if (!self?.ServiceWorkerGlobalScope) { return; }
   self.addEventListener('install', e=>e.waitUntil.(self.skipWaiting());
   self.addEventListener('activate', e=>e.waitUntil.(clients.claim());
+  let syncCache = caches.open('sync-cache');
   let asyncFunctions = {
-    multiply: function (nums) {
-      const result = nums[0] * nums[1];
-      if (isNaN(result)) {
-        return 'Please write two numbers';
-      } else {
-        const workerResult = 'Result: ' + result;
-        console.log('Worker: Posting message back to main script');
-        return result;
-      }
+    match: async function () {
+      const cache = await syncCache;
+      const match = cache.match(...arguments);
+      if(!match==undefined){return undefined;}
+      const matchClone = match.clone();
+      const body = await matchClone.arrayBuffer();
     }
   }
   self.addEventListener('fetch',(event)=> {
