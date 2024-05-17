@@ -15,7 +15,7 @@ void function DedicatedWorker() {
 }?.();
 
 void function ServiceWorkerScript() {
-  self.navigator?.serviceWorker?.register?.(document.currentScript.src);
+  self?.navigator?.serviceWorker?.register?.(document?.currentScript?.src);
   if (!self?.ServiceWorkerGlobalScope) { return; }
   self.addEventListener('install', e=>e.waitUntil.(self.skipWaiting());
   self.addEventListener('activate', e=>e.waitUntil.(clients.claim());
