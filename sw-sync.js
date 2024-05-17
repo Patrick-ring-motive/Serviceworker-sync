@@ -1,10 +1,14 @@
+/* This section will run in the main thread */
 void async function MainWindow() {
   if (!self?.window?.Worker) { return; }
+  self?.navigator?.serviceWorker?.register?.(document.currentScript.src);
   const myWorker = new Worker(document.currentScript.src);
 }?.();
 
+/* This section will run inside our regular worker thread */
 void function DedicatedWorker() {
   if (!self?.DedicatedWorkerGlobalScope) { return; }
+  
   function sync(func, args) {
     const pack = '/'+encodeURIComponent(JSON.stringify({ "action":"SYNCHRONIZE" , "func": func, "args": args }));
     const request = new XMLHttpRequest();
@@ -14,12 +18,17 @@ void function DedicatedWorker() {
   }
 }?.();
 
+/* This section will run inside out service worker thread */
 void function ServiceWorkerScript() {
-  self?.navigator?.serviceWorker?.register?.(document?.currentScript?.src);
   if (!self?.ServiceWorkerGlobalScope) { return; }
+  
+  /* install asap */
   self.addEventListener('install', e=>e.waitUntil.(self.skipWaiting());
+  
+  /* activate asap */
   self.addEventListener('activate', e=>e.waitUntil.(clients.claim());
   let syncCache = caches.open('sync-cache');
+  
   let asyncFunctions = {
     match: async function () {
       const cache = await syncCache;
