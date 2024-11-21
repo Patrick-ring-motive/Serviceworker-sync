@@ -1,7 +1,7 @@
 /* This section will run in the main thread */
 void async function MainWindow() {
   if (!self?.window?.Worker) { return; }
-  self?.navigator?.serviceWorker?.register?.(document.currentScript.src);
+  self?.navigator?.serviceWorker?.register?.(document?.currentScript?.src);
   const myWorker = new Worker(document.currentScript.src);
 }?.();
 
