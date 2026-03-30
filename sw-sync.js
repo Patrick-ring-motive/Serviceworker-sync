@@ -9,6 +9,7 @@ void async function MainWindow() {
 
 /* This section will run inside our regular worker thread */
 void
+
 function DedicatedWorker() {
   if (!self?.DedicatedWorkerGlobalScope) {
     return;
@@ -29,6 +30,7 @@ function DedicatedWorker() {
 
 /* This section will run inside out service worker thread */
 void
+
 function ServiceWorkerScript() {
   if (!self?.ServiceWorkerGlobalScope) {
     return;
